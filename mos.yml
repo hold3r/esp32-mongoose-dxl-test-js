@@ -24,3 +24,7 @@ conds:
       build_vars:
         # Icrease app szie for ESP32
         APP_SLOT_SIZE: 0x190000
+
+
+
+
