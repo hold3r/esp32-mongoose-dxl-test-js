@@ -6,6 +6,8 @@ load('api_gpio.js');
 load('api_shadow.js');
 load('api_timer.js');
 load('api_sys.js');
+load('api_uart.js');
+
 
 load('api_dxl.js');
 
@@ -24,6 +26,7 @@ let active_led = "Red";
 let button_last_state;
 
 
+
 let led = Dxl.create(LED_ID);
 let btn = Dxl.create(BTN_ID);
 let pot = Dxl.create(POT_ID);
@@ -32,6 +35,35 @@ led.begin(DXL_BAUD);
 led.init();
 btn.init();
 pot.init();
+
+/*
+let uartNo = 0;   // Uart number used for this example
+let rxAcc = '';   // Accumulated Rx data, will be echoed back to Tx
+let value = false;
+
+UART.setConfig(uartNo, {
+  baudRate: 115200,
+  esp32: {
+  },
+});
+
+// Set dispatcher callback, it will be called whenver new Rx data or space in
+// the Tx buffer becomes available
+UART.setDispatcher(uartNo, function(uartNo) {
+  let ra = UART.readAvail(uartNo);
+  if (ra > 0) {
+    // Received new data: print it immediately to the console, and also
+    // accumulate in the "rxAcc" variable which will be echoed back to UART later
+    let data = UART.read(uartNo);
+    print('Received UART data:', data);
+    //rxAcc += data;
+  }
+}, null);
+
+// Enable Rx
+UART.setRxEnabled(uartNo, true);
+*/
+
 
 /* GPIO Led set function
 *******************************************/
@@ -54,7 +86,7 @@ setLED(state.on);
 
 /* GPIO Led 
 *******************************************/
-Timer.set(333, Timer.REPEAT, function() {
+Timer.set(5000, Timer.REPEAT, function() {
 
     if (led_state === false) {
     	setLED(true);
@@ -69,38 +101,16 @@ Timer.set(333, Timer.REPEAT, function() {
 }, null);
 
 /* Pot check
-*******************************************/
-Timer.set(250, Timer.REPEAT, function() {
+*********************************************************************/
+Timer.set(5000, Timer.REPEAT, function() {
 
   pot_level = (((pot.read(27) << 8) + pot.read(26)) / 4);
 
 }, null );
 
-
-/* Brightness set 
-*******************************************/
-Timer.set(100, Timer.REPEAT, function() {
-
-  if (active_led === "Red") {
-    led.write(26, pot_level);
-    led.write(27, 0);
-    led.write(28, 0); 
-  } else if (active_led === "Green") {
-    led.write(26, 0);
-    led.write(27, pot_level);
-    led.write(28, 0); 
-  } else {
-    led.write(26, 0);
-    led.write(27, 0);
-    led.write(28, pot_level);
-  }
-
-}, null );
-
-
 /* Button Led 
-*******************************************/
-Timer.set(440, Timer.REPEAT, function() {
+*********************************************************************/
+Timer.set(5000, Timer.REPEAT, function() {
 
   if (btn.read(27) === 1) {
     if (active_led === "Red") {
@@ -113,5 +123,29 @@ Timer.set(440, Timer.REPEAT, function() {
   }
 
 }, null)
+
+
+/* Brightness set 
+*******************************************/
+// Timer.set(5000, Timer.REPEAT, function() {
+
+//   if (active_led === "Red") {
+//     led.write(26, pot_level);
+//     led.write(27, 0);
+//     led.write(28, 0); 
+//   } else if (active_led === "Green") {
+//     led.write(26, 0);
+//     led.write(27, pot_level);
+//     led.write(28, 0); 
+//   } else {
+//     led.write(26, 0);
+//     led.write(27, 0);
+//     led.write(28, pot_level);
+//   }
+
+// }, null );
+
+
+
 
 

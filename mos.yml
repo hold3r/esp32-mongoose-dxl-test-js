@@ -13,6 +13,12 @@ tags:
 filesystem:
   - fs
 
+config_schema:
+  - ["wifi.ap.enable", false]
+  - ["wifi.sta.enable", false]
+  - ["bt.enable", false]
+  - ["http.enable", false]
+
 libs:
   - location: https://github.com/mongoose-os-libs/boards
   - location: https://github.com/mongoose-os-libs/js-demo-bundle
