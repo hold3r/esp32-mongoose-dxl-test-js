@@ -20,9 +20,11 @@ config_schema:
   - ["http.enable", false]
 
 libs:
-  - location: https://github.com/mongoose-os-libs/boards
-  - location: https://github.com/mongoose-os-libs/js-demo-bundle
+  - location: https://github.com/mongoose-os-libs/mjs
+  - location: https://github.com/mongoose-os-libs/rpc-uart
   - location: https://github.com/hold3r/esp32-mos-dxl
+  - location: https://github.com/mongoose-os-libs/bt-service-debug
+
 
 conds:
   - when: mos.platform == "esp32"
